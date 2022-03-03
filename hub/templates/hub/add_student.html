@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="post">
+{% csrf_token %}
+{#<input type="text" name="first_name" placeholder="Votre prenom">#}
+{#<input type="text" name="last_name" placeholder="Votre nom">#}
+{#<input type="email" name="email" placeholder="Votre e-mail">#}
+{##}
+{{ form }}
+<input type="submit" value="Ajouter">
+</form>
+{% endblock content %}

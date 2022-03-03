@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Coach
+{% endblock title %}
+{% block content %}
+ <table class="table">
+            <thead>
+              <tr>
+
+                <th scope="col">Name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Email</th>
+              </tr>
+            </thead>
+            <tbody>{% for s in coachs %}
+              <tr>
+
+                <td>{{ s.first_name }}</td>
+                <td> {{ s.last_name }}</td>
+                    <td>{{ s.email }}</td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+{% endblock content %}
