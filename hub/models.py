@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.validators import MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.urls import  reverse
 # Create your models here.
 
 
@@ -19,9 +20,11 @@ class User(models.Model):
     ) #de base Chrafield
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
+
     
 class Student(User):
-    pass
+    def get_absolute_url(self):# walla nhotouha f class user el model
+        return reverse('studentlist1')
 class Coach(User):
     pass
 class Projet(models.Model):

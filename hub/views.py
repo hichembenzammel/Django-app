@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from hub.forms import StudentForm, StudentModelForm
 from hub.models import Coach, Student
+
 
 # Create your views here.
 def homePage(request):
@@ -16,18 +17,23 @@ def student_list(request):
         request,
         'hub/index.html',
         {
-            'students':list,
+            'students': list,
         }
 
     )
+
+
 class StudentListView(ListView):
-    model=Student
+    model = Student
     template_name = "hub/index.html"
-  #  paginate_by = 1
+
+
+#  paginate_by = 1
 
 class StudentDetailView(DetailView):
-      model:Student
-      template_name = "hub/st_details.html"
+    model: Student
+    template_name = "hub/st_details.html"
+
 
 def coach_list(request):
     list = Coach.objects.all()
@@ -35,7 +41,7 @@ def coach_list(request):
         request,
         'hub/coach.html',
         {
-            'coachs':list,
+            'coachs': list,
         }
 
     )
@@ -47,40 +53,41 @@ def student_Details(request, id):
         request,
         'hub/st_details.html',
         {
-            'student':st,
+            'student': st,
         })
+
 
 # creation du 1er methode de formulaire
 def CreateStudent(request):
-        print(request)
-        if request.method == 'POST':
-            firstName=request.POST.get('first_name')
-            lastName=request.POST.get('last_name')
-            email=request.POST.get('email')
-            Student.objects.create(
-                first_name=firstName,
-                last_name=lastName,
-                email=email
+    print(request)
+    if request.method == 'POST':
+        firstName = request.POST.get('first_name')
+        lastName = request.POST.get('last_name')
+        email = request.POST.get('email')
+        Student.objects.create(
+            first_name=firstName,
+            last_name=lastName,
+            email=email
 
-            )
-            return redirect('studentlist1')
-        return render(
-            request,
-            'hub/add_student.html',
         )
+        return redirect('studentlist1')
+    return render(
+        request,
+        'hub/add_student.html',
+    )
 
 
 def CreateStudentForm(request):
     form = StudentForm()
     if request.method == 'POST':
-        form=StudentForm(request.POST)
+        form = StudentForm(request.POST)
         if form.is_valid():
             Student.objects.create(
                 first_name=form.cleaned_data.get('first_name'),
                 last_name=form.cleaned_data.get('last_name'),
                 email=form.cleaned_data.get('email')
             )
-    # ou bien Student.objects.create(**form.cleaned_data) tektebha wahadha tekhdem les atributs wahadha
+            # ou bien Student.objects.create(**form.cleaned_data) tektebha wahadha tekhdem les atributs wahadha
             return redirect('studentlist1')
     return render(
         request,
@@ -90,18 +97,28 @@ def CreateStudentForm(request):
         }
     )
 
+
 def add_Student(request):
-    form=StudentModelForm()
+    form = StudentModelForm()
     if request.method == 'POST':
         form = StudentModelForm(request.POST)
         if form.is_valid():
-            student= form.save(commit=False)
+            student = form.save(commit=False)
             student.save()
             return redirect('studentlist1')
     return render(
-            request,
-            'hub/add_student.html',
-            {
-                'form': form,
-            }
-        )
+        request,
+        'hub/add_student.html',
+        {
+            'form': form,
+        }
+    )
+
+
+# kif el add_student
+class StudentCreateView(CreateView):
+    model = Student
+    form_class = StudentModelForm
+    template_name = 'hub/add_student.html'
+    """def get_success_url(self):# walla nhotou get_absolute_url(self): return kif kif f class user el model ay update aal user tekhdem
+        return redirect('studentlist1')"""

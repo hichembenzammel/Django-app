@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from .views import CreateStudent, coach_list, homePage, student_Details, student_list, StudentListView, \
-    StudentDetailView, CreateStudentForm, add_Student
+    StudentDetailView, CreateStudentForm, add_Student, StudentCreateView
 
 urlpatterns = [
     path('home', homePage, name="home"),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('add/', CreateStudent, name="createStudent"),
     path('addform/', CreateStudentForm, name="createStudentForm"),
     path('adds/', add_Student, name="createStudentFormModel"),
+    path('adds1/', StudentCreateView.as_view(), name="createStudentFormModel1"),
 ]
